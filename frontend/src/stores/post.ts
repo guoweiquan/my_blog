@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
-import { postApi, type PostDetail, type PostSummary } from '@/api/modules/post';
+import { postApi } from '@/api/modules/post';
 import type { PageResult } from '@/types/api';
+import type { PostDetail, PostSummary } from '@/types/post';
 
 interface PostState {
   list: PostSummary[];
@@ -32,7 +33,15 @@ export const usePostStore = defineStore('post', {
       }
     },
     async fetchPostDetail(slug: string) {
-      this.currentPost = await postApi.fetchPostDetail(slug);
+      this.loading = true;
+      try {
+        this.currentPost = await postApi.fetchPostDetail(slug);
+      } finally {
+        this.loading = false;
+      }
+    },
+    fetchManagePosts(params: Record<string, unknown> = {}) {
+      return postApi.fetchManagePosts(params);
     }
   }
 });

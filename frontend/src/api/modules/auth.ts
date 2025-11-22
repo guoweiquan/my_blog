@@ -1,22 +1,5 @@
 import { request } from '@/api/http';
-
-export interface LoginPayload {
-  username: string;
-  password: string;
-}
-
-export interface LoginResult {
-  accessToken: string;
-  refreshToken?: string;
-}
-
-export interface UserProfile {
-  id: number;
-  username: string;
-  nickname?: string;
-  avatarUrl?: string;
-  roles: string[];
-}
+import type { LoginPayload, LoginResult, RegisterPayload, UserProfile } from '@/types/auth';
 
 export const authApi = {
   login(payload: LoginPayload) {
@@ -26,16 +9,31 @@ export const authApi = {
       data: payload
     });
   },
+  register(payload: RegisterPayload) {
+    return request<UserProfile>({
+      url: '/auth/register',
+      method: 'POST',
+      data: payload
+    });
+  },
+  refresh(refreshToken: string) {
+    return request<LoginResult>({
+      url: '/auth/refresh',
+      method: 'POST',
+      data: { refreshToken }
+    });
+  },
   fetchProfile() {
     return request<UserProfile>({
       url: '/auth/profile',
       method: 'GET'
     });
   },
-  logout() {
+  logout(refreshToken?: string) {
     return request<void>({
       url: '/auth/logout',
-      method: 'POST'
+      method: 'POST',
+      data: refreshToken ? { refreshToken } : undefined
     });
   }
 };

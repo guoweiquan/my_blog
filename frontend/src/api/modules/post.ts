@@ -1,23 +1,6 @@
 import { request } from '@/api/http';
 import type { PageResult } from '@/types/api';
-
-export interface PostSummary {
-  id: number;
-  title: string;
-  slug: string;
-  summary?: string;
-  coverUrl?: string;
-  publishedAt?: string;
-  authorName?: string;
-  tagNames?: string[];
-}
-
-export interface PostDetail extends PostSummary {
-  content: string;
-  viewCount?: number;
-  likeCount?: number;
-  commentCount?: number;
-}
+import type { PostDetail, PostPayload, PostSummary } from '@/types/post';
 
 export const postApi = {
   fetchPosts(params: Record<string, unknown> = {}) {
@@ -27,10 +10,37 @@ export const postApi = {
       params
     });
   },
+  fetchManagePosts(params: Record<string, unknown> = {}) {
+    return request<PageResult<PostSummary>>({
+      url: '/posts/manage',
+      method: 'GET',
+      params
+    });
+  },
   fetchPostDetail(slug: string) {
     return request<PostDetail>({
       url: `/posts/${slug}`,
       method: 'GET'
+    });
+  },
+  createPost(payload: PostPayload) {
+    return request<PostDetail>({
+      url: '/posts',
+      method: 'POST',
+      data: payload
+    });
+  },
+  updatePost(id: number, payload: PostPayload) {
+    return request<PostDetail>({
+      url: `/posts/${id}`,
+      method: 'PUT',
+      data: payload
+    });
+  },
+  deletePost(id: number) {
+    return request<void>({
+      url: `/posts/${id}`,
+      method: 'DELETE'
     });
   }
 };

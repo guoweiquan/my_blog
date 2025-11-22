@@ -7,19 +7,22 @@
 
     <el-skeleton v-if="isLoading" :rows="4" animated />
 
-    <div v-else class="post-list">
-      <article v-for="post in posts" :key="post.id" class="post-card" @click="goDetail(post.slug)">
-        <div class="meta">
-          <span>{{ post.authorName || '管理员' }}</span>
-          <span>·</span>
-          <span>{{ post.publishedAt || '草稿' }}</span>
-        </div>
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.summary || '这是一篇精彩的文章，等待完善内容……' }}</p>
-        <div class="tags">
-          <el-tag v-for="tag in post.tagNames" :key="tag" size="small">{{ tag }}</el-tag>
-        </div>
-      </article>
+    <div v-else>
+      <el-empty v-if="!posts.length" description="暂无文章，敬请期待" />
+      <div v-else class="post-list">
+        <article v-for="post in posts" :key="post.id" class="post-card" @click="goDetail(post.slug)">
+          <div class="meta">
+            <span>{{ post.authorName || '管理员' }}</span>
+            <span>·</span>
+            <span>{{ post.publishedAt || '草稿' }}</span>
+          </div>
+          <h2>{{ post.title }}</h2>
+          <p>{{ post.summary || '这是一篇精彩的文章，等待完善内容……' }}</p>
+          <div class="tags">
+            <el-tag v-for="tag in post.tagNames" :key="tag" size="small">{{ tag }}</el-tag>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 </template>

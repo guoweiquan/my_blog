@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { ElMessage } from 'element-plus';
 import { usePostStore } from '@/stores/post';
 
 const route = useRoute();
@@ -25,14 +26,19 @@ const slug = computed(() => route.params.slug as string);
 const post = computed(() => postStore.currentPost);
 const isLoading = computed(() => postStore.loading);
 
-const loadPost = () => {
-  if (slug.value) {
-    postStore.fetchPostDetail(slug.value);
+const loadPost = async () => {
+  if (!slug.value) return;
+  try {
+    await postStore.fetchPostDetail(slug.value);
+  } catch (error: any) {
+    ElMessage.error(error?.message || '文章加载失败');
   }
 };
 
 onMounted(loadPost);
-watch(slug, loadPost);
+watch(slug, () => {
+  loadPost();
+});
 </script>
 
 <style scoped>

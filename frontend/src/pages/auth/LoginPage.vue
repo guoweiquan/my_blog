@@ -2,7 +2,7 @@
   <section class="auth-page">
     <el-card class="auth-card" shadow="hover">
       <h2>登录</h2>
-      <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
+            <el-form ref="formRef" :model="form" :rules="rules" label-position="top" @keyup.enter="handleSubmit">
         <el-form-item label="用户名 / 邮箱" prop="username">
           <el-input v-model="form.username" placeholder="请输入用户名或邮箱" />
         </el-form-item>
@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import type { FormInstance, FormRules } from 'element-plus';
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
 import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter();
@@ -35,16 +35,21 @@ const authStore = useAuthStore();
 const formRef = ref<FormInstance>();
 const form = reactive({ username: '', password: '' });
 const rules: FormRules<typeof form> = {
-  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  username: [{ required: true, message: '请输入用户名或邮箱', trigger: 'blur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 };
 
 const handleSubmit = () => {
   formRef.value?.validate(async (valid) => {
     if (!valid) return;
-    await authStore.login({ ...form });
-    const redirect = (route.query.redirect as string) || '/';
-    router.replace(redirect);
+    try {
+      await authStore.login({ ...form });
+      ElMessage.success('登录成功');
+      const redirect = (route.query.redirect as string) || '/';
+      router.replace(redirect);
+    } catch (error: any) {
+      ElMessage.error(error?.message || '登录失败，请稍后再试');
+    }
   });
 };
 </script>
