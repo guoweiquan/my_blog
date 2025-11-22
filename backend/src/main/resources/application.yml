@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: blog-backend
+  profiles:
+    active: dev
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    root: INFO
+    com.example.blog: DEBUG

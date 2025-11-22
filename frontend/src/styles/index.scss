@@ -1,0 +1,27 @@
+@use 'sass:color';
+
+:root {
+  --color-primary: #409eff;
+  --color-background: #f5f6f8;
+  --color-text: #1f2d3d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+#app {
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+}
