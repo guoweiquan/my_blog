@@ -1,6 +1,7 @@
 package com.example.blog.content.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,4 +15,5 @@ public class CommentResponse {
     private final String content;
     private final String authorName;
     private final LocalDateTime createdAt;
+    private final List<CommentResponse> children;
 }

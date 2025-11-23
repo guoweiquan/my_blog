@@ -29,6 +29,12 @@ const routes: RouteRecordRaw[] = [
         name: 'Register',
         component: () => import('@/pages/auth/RegisterPage.vue'),
         meta: { title: '注册' }
+      },
+      {
+        path: 'search',
+        name: 'SearchResult',
+        component: () => import('@/pages/search/SearchResultPage.vue'),
+        meta: { title: '搜索结果' }
       }
     ]
   },

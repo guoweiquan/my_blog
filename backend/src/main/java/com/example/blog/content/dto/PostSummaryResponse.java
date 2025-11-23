@@ -18,4 +18,6 @@ public class PostSummaryResponse {
     private final String authorName;
     private final LocalDateTime publishedAt;
     private final List<String> tagNames;
+    private final Integer viewCount;
+    private final Integer likeCount;
 }

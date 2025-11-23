@@ -42,5 +42,12 @@ export const postApi = {
       url: `/posts/${id}`,
       method: 'DELETE'
     });
+  },
+  searchPosts(params: { q: string; page?: number; size?: number }) {
+    return request<PageResult<PostSummary>>({
+      url: '/search/posts',
+      method: 'GET',
+      params
+    });
   }
 };

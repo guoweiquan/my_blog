@@ -22,4 +22,6 @@ public class PostDetailResponse {
     private final Integer likeCount;
     private final Integer commentCount;
     private final List<String> tagNames;
+    private final boolean likedByCurrentUser;
+    private final boolean favoritedByCurrentUser;
 }

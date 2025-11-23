@@ -1,5 +1,6 @@
 package com.example.blog.content.controller;
 
+import com.example.blog.auth.util.SecurityUtils;
 import com.example.blog.common.api.ApiResponse;
 import com.example.blog.content.dto.TagRequest;
 import com.example.blog.content.dto.TagResponse;
@@ -26,7 +27,7 @@ public class TagController {
 
     @GetMapping
     public ApiResponse<List<TagResponse>> list() {
-        return ApiResponse.success(tagService.findAll());
+        return ApiResponse.success(tagService.findAll(SecurityUtils.getCurrentUserId()));
     }
 
     @PostMapping

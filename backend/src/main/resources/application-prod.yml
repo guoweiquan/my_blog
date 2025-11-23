@@ -30,3 +30,10 @@ management:
     web:
       exposure:
         include: health,info,prometheus
+
+security:
+  sensitive-words:
+    - 赌博
+    - 诈骗
+    - 色情
+    - 违禁

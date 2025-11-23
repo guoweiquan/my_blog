@@ -11,4 +11,5 @@ public class TagResponse {
     private final String name;
     private final String description;
     private final Integer postCount;
+    private final boolean subscribed;
 }

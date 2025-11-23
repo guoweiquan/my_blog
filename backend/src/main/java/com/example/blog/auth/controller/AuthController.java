@@ -8,7 +8,11 @@ import com.example.blog.auth.dto.RegisterRequest;
 import com.example.blog.auth.dto.UserProfileResponse;
 import com.example.blog.auth.service.AuthService;
 import com.example.blog.common.api.ApiResponse;
+import com.example.blog.common.service.RateLimitService;
+import com.example.blog.common.util.RequestUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final RateLimitService rateLimitService;
 
     @PostMapping("/register")
     public ApiResponse<UserProfileResponse> register(@Valid @RequestBody RegisterRequest request) {
@@ -29,7 +34,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequest request, HttpServletRequest servletRequest) {
+        rateLimitService.assertAllowed("rate:login:" + RequestUtils.getClientIp(servletRequest),
+                5, Duration.ofMinutes(1), "登录请求过于频繁，请稍后再试");
         return ApiResponse.success(authService.login(request));
     }
 

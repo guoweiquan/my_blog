@@ -8,6 +8,8 @@ export interface PostSummary {
   authorName?: string;
   publishedAt?: string;
   tagNames?: string[];
+  viewCount?: number;
+  likeCount?: number;
 }
 
 export interface PostDetail extends PostSummary {
@@ -15,6 +17,8 @@ export interface PostDetail extends PostSummary {
   viewCount?: number;
   likeCount?: number;
   commentCount?: number;
+  likedByCurrentUser?: boolean;
+  favoritedByCurrentUser?: boolean;
 }
 
 export interface PostPayload {
